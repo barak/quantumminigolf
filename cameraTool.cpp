@@ -23,7 +23,7 @@
 	and I strongly recommend to take a look at it
 */
 
-#include "cameraTool.h"
+#include <cameraTool.h>
 	
 cameraEngine* cameraTool::findCamera() {
 

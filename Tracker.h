@@ -39,7 +39,7 @@ public:
 	void setRenderer(Renderer *renderer){this->renderer = renderer;}
 
 protected:
-	~Tracker(void);
+	virtual ~Tracker(void);
 	int ix, iy, rball, w, h;
 	float vmax;
 

@@ -195,6 +195,9 @@ int TrackSelector::GetTrack(bool *quantum){
 					    if(help)renderer->RenderMenu(*quantum);
 					    renderer->Blit();
 					    break;
+					default:
+					  cerr << "warning: unhandled SDLK event" << endl;
+					  break;
 				}
 				break;
 			default:
@@ -202,6 +205,8 @@ int TrackSelector::GetTrack(bool *quantum){
 				break;
 		}
 	}
+	// Unreachable: finished is never set
+	return 0;		// avoid spurious warning
 }
 
 //BlackTrack -- generate an empty track surface

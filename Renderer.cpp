@@ -123,9 +123,9 @@ Renderer::Renderer(int width, int height, int flag, int holex, int holey, int ho
 			alpha = red;
 			if(green > alpha) alpha = green; if(blue > alpha) alpha = blue; 
 			if(alpha > 0){
-				red = red*255/alpha;		if(red > 255) red=255;
-				green = green*255/alpha;	if(green > 255) green=255;
-				blue = blue*255/alpha;		if(blue > 255) blue=255;
+				red   = min(red  *255/alpha, 255);
+				green = min(green*255/alpha, 255);
+				blue  = min(blue *255/alpha, 255);
 			}
 			pdata[j*cmapc->w + i] = SDL_MapRGBA(cmapc->format, red, green, blue, alpha);
 		}
@@ -140,9 +140,9 @@ Renderer::Renderer(int width, int height, int flag, int holex, int holey, int ho
 			alpha = red;
 			if(green > alpha) alpha = green; if(blue > alpha) alpha = blue; 
 			if(alpha > 0){
-				red = red*255/alpha;		if(red > 255) red=255;
-				green = green*255/alpha;	if(green > 255) green=255;
-				blue = blue*255/alpha;		if(blue > 255) blue=255;
+				red   = min(red  *255/alpha, 255);
+				green = min(green*255/alpha, 255);
+				blue  = min(blue *255/alpha, 255);
 			}
 			pdata[j*cmapm->w + i] = SDL_MapRGBA(cmapm->format, red, green, blue, alpha);
 		}
@@ -161,7 +161,7 @@ Renderer::Renderer(int width, int height, int flag, int holex, int holey, int ho
 #ifdef LINUX
 		fntsml = TTF_OpenFont( "fonts/default.ttf", 12 );
 		fntbg = TTF_OpenFont( "fonts/default.ttf", 24 );    
-#endif LINUX
+#endif
 
 #ifdef WIN32
 	fntsml = TTF_OpenFont( "C:\\windows\\fonts\\tahoma.ttf", 12 );
