@@ -1,0 +1,33 @@
+Things to clean up, of varying severity.
+
+* To Do
+
+** stop ignoring interrupts, especially window close button and C-c
+** cp /usr/share/common-licenses/GPL-2 LICENSE
+(wdiff -3 is "library"->"lesser" and punctuation)
+** search path for tracks
+** make install, which uses $(DESTDIR) and $(prefix)
+** less chatter on startup; verbosity option
+** options on startup
+*** --verbose, --quiet
+*** --help
+*** --version
+*** create man page (invoke help2man in Makefile)
+** get rid of random numbers in code
+*** filename buffer lengths
+*** window/arena width/height
+*** pixel brightness ranges
+** fix command menu splash screen display
+** variable arena size
+** variable ball mass, for smooth quantum-to-classical transition
+** debianize & dupload
+** push repo to alioth collabmaint
+
+* Done
+
+** pull into darcs
+** switch from darcs to git
+** reformat C code
+** politically correct Makefile (build / clean)
+** avoid repetition of buffer sizes via sizeof
+** Debianise
