@@ -18,9 +18,9 @@
 */
 
 
-//ClassicSimulator - A class to simulate a classic minigolf ball in the quantum minigolf playing 
-// fields. It needs two bitmaps, one containing the infinitely high part of the potential, 
-// folded with the ball shape and a second with the finitely hard part of the potential. 
+//ClassicSimulator - A class to simulate a classic minigolf ball in the quantum minigolf playing
+// fields. It needs two bitmaps, one containing the infinitely high part of the potential,
+// folded with the ball shape and a second with the finitely hard part of the potential.
 //
 // The classic simulator is still heavy work in progress
 
@@ -31,28 +31,29 @@
 class ClassicSimulator
 {
 public:
-	ClassicSimulator(int width, int height, Renderer *renderer, int holex, int holey, int holer);
+  ClassicSimulator (int width, int height, Renderer * renderer, int holex,
+		    int holey, int holer);
 
-	void setPosition(float x, float y);
-	void setVelocity(float vx, float vy);
-	
-	int propagate(Uint32 dt); // propagation function, takes timestep dt in SDL ticks and returns
-							  // 1 if the ball stopped during the step, 0 otherwise
+  void setPosition (float x, float y);
+  void setVelocity (float vx, float vy);
+
+  int propagate (Uint32 dt);	// propagation function, takes timestep dt in SDL ticks and returns
+  // 1 if the ball stopped during the step, 0 otherwise
 public:
-	~ClassicSimulator(void);
+   ~ClassicSimulator (void);
 
-	SDL_Surface *hard; // pointer to the inifinitely high part of the potential
-	SDL_Surface *soft; // pointer to the finite height part of the potential
+  SDL_Surface *hard;		// pointer to the inifinitely high part of the potential
+  SDL_Surface *soft;		// pointer to the finite height part of the potential
 
-	float pos[2]; // position of the classical ball
-	float vel[2]; // velocity of the classical ball
+  float pos[2];			// position of the classical ball
+  float vel[2];			// velocity of the classical ball
 
 private:
 
-	Renderer *renderer; // pointer to the renderer
+    Renderer * renderer;	// pointer to the renderer
 
-	int width;
-	int height;
+  int width;
+  int height;
 
-	int holex, holey, holer;
+  int holex, holey, holer;
 };

@@ -17,10 +17,10 @@
 */
 
 
-// Tracker -- an abstract base class defining the neccessary functionality 
-// for a tracker class which can simulate a club and kick the quantum ball. 
-// It is extended by SoftwareTracker and WebcamTracker for the software-only 
-// and the virtual reality version of QMG respectively. 
+// Tracker -- an abstract base class defining the neccessary functionality
+// for a tracker class which can simulate a club and kick the quantum ball.
+// It is extended by SoftwareTracker and WebcamTracker for the software-only
+// and the virtual reality version of QMG respectively.
 
 #pragma once
 
@@ -31,17 +31,21 @@
 class Tracker
 {
 public:
-	Tracker(int w, int h, int ix, int iy, int rball, float rvmax, Renderer *renderer);
+  Tracker (int w, int h, int ix, int iy, int rball, float rvmax,
+	   Renderer * renderer);
 
-	virtual void Init()=0;
-	virtual void GetHit(float *v, float *phi)=0;
-	virtual void AnimateHit(Uint32 duration, float v, float phi)=0;
-	void setRenderer(Renderer *renderer){this->renderer = renderer;}
+  virtual void Init () = 0;
+  virtual void GetHit (float *v, float *phi) = 0;
+  virtual void AnimateHit (Uint32 duration, float v, float phi) = 0;
+  void setRenderer (Renderer * renderer)
+  {
+    this->renderer = renderer;
+  }
 
 protected:
-	virtual ~Tracker(void);
-	int ix, iy, rball, w, h;
-	float vmax;
+    virtual ~ Tracker (void);
+  int ix, iy, rball, w, h;
+  float vmax;
 
-	Renderer *renderer;
+  Renderer *renderer;
 };

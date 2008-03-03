@@ -31,36 +31,38 @@
 
 using namespace std;
 
-typedef struct{
-	SDL_Surface *V;
-	SDL_Surface *hard;
-	SDL_Surface *soft;
-}trackrecord;
+typedef struct
+{
+  SDL_Surface *V;
+  SDL_Surface *hard;
+  SDL_Surface *soft;
+} trackrecord;
 
 class TrackSelector
 {
 public:
-	TrackSelector(Renderer *renderer, ClassicSimulator *csimulator);
-	~TrackSelector(void);
+  TrackSelector (Renderer * renderer, ClassicSimulator * csimulator);
+  ~TrackSelector (void);
 
-	// handle the user input in the menu phase (i.e. cycle the 
-	// tracks and then quit or start a new game)
-	int GetTrack(bool *quantum);
+  // handle the user input in the menu phase (i.e. cycle the
+  // tracks and then quit or start a new game)
+  int GetTrack (bool * quantum);
 
 private:
-	SDL_Surface *BlackTrack(void);
+    SDL_Surface * BlackTrack (void);
 
-	Renderer *renderer;  // pointer to the renderer
-	ClassicSimulator *csimulator; // pointer to the simulator - 
-								 // used to reset csimulator.hard
-								 // and csimulator.soft
-	int width; int height; 
+  Renderer *renderer;		// pointer to the renderer
+  ClassicSimulator *csimulator;	// pointer to the simulator -
+  // used to reset csimulator.hard
+  // and csimulator.soft
+  int width;
+  int height;
 
-	bool help;  // display help menu
+  bool help;			// display help menu
 
-	// tracks - a list containing all the pre-loaded tracks 
-	// when the user cycles through the tracks, they are fetched 
-	// from 'tracks' by 'trackiterator'
-	list<trackrecord *> tracks;
-	list<trackrecord *>::iterator trackiterator;
+  // tracks - a list containing all the pre-loaded tracks
+  // when the user cycles through the tracks, they are fetched
+  // from 'tracks' by 'trackiterator'
+    list < trackrecord * >tracks;
+    list < trackrecord * >::iterator trackiterator;
 };

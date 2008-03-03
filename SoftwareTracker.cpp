@@ -18,65 +18,78 @@
 
 #include "SoftwareTracker.h"
 
-SoftwareTracker::SoftwareTracker(int w, int h, int ix, int iy, int rball, 
-								 float vmax, Renderer *renderer) :
-				Tracker( w, h, ix, iy, rball, vmax, renderer)
+SoftwareTracker::SoftwareTracker (int w, int h, int ix, int iy, int rball,
+				  float vmax, Renderer * renderer):
+Tracker (w, h, ix, iy, rball, vmax, renderer)
 {
 }
 
-void SoftwareTracker::Init(void){
+void
+SoftwareTracker::Init (void)
+{
 
 }
 
-void SoftwareTracker::GetHit(float *v, float *phi){
-		int mx, my;			// buffer variables for mouse position
-		Uint32 sdlclock;
-		SDL_Event dummyevent;
+void
+SoftwareTracker::GetHit (float *v, float *phi)
+{
+  int mx, my;			// buffer variables for mouse position
+  Uint32 sdlclock;
+  SDL_Event dummyevent;
 
-		while(SDL_PollEvent(&dummyevent)==0){
-			// Adjust angle to mouse direction, fix it at mouse click
-			SDL_GetMouseState(&mx, &my);
-			*phi = M_PI*((float)my/h - .5);
+  while (SDL_PollEvent (&dummyevent) == 0)
+    {
+      // Adjust angle to mouse direction, fix it at mouse click
+      SDL_GetMouseState (&mx, &my);
+      *phi = M_PI * ((float) my / h - .5);
 
-			renderer->RenderTrack();
-			renderer->RenderBall(ix, iy);
-			renderer->RenderRacket(15, 20, ix, iy, *phi);
-			renderer->Blit();
-		}    
-		// The user has clicked the mouse, wait until he releases it and determine 
-		// the racket velocity from the hold time
-		*v=0;
-		sdlclock = SDL_GetTicks();
-		while(SDL_PollEvent(&dummyevent)==0){
-			*v = (float)(SDL_GetTicks() - sdlclock)/1000;
-			if(*v > 1)
-				*v = 1;
+      renderer->RenderTrack ();
+      renderer->RenderBall (ix, iy);
+      renderer->RenderRacket (15, 20, ix, iy, *phi);
+      renderer->Blit ();
+    }
+  // The user has clicked the mouse, wait until he releases it and determine
+  // the racket velocity from the hold time
+  *v = 0;
+  sdlclock = SDL_GetTicks ();
+  while (SDL_PollEvent (&dummyevent) == 0)
+    {
+      *v = (float) (SDL_GetTicks () - sdlclock) / 1000;
+      if (*v > 1)
+	*v = 1;
 
-			renderer->RenderTrack();
-			renderer->RenderBall(ix, iy);
-			renderer->RenderRacket(15, 20+vmax * *v, ix, iy, *phi);
-			renderer->Blit();
-		}
+      renderer->RenderTrack ();
+      renderer->RenderBall (ix, iy);
+      renderer->RenderRacket (15, 20 + vmax * *v, ix, iy, *phi);
+      renderer->Blit ();
+    }
 }
 
 // AnimateHit
-// if software hit generation is enabled, draw a moving 
+// if software hit generation is enabled, draw a moving
 // club hitting the ball
-void SoftwareTracker::AnimateHit(Uint32 duration, float v, float phi){
-		Uint32 sdlclock = SDL_GetTicks();
+void
+SoftwareTracker::AnimateHit (Uint32 duration, float v, float phi)
+{
+  Uint32 sdlclock = SDL_GetTicks ();
 
-		while(SDL_GetTicks() - sdlclock < duration){
-			renderer->RenderTrack();
-			renderer->RenderBall(ix, iy);
-			renderer->RenderRacket(15, 
-				20+vmax* v - (20-rball+vmax* v)*(float)(SDL_GetTicks() - sdlclock)*(SDL_GetTicks() - sdlclock)/duration/duration, 
-				ix, iy, phi);
-			renderer->Blit();
-		}
+  while (SDL_GetTicks () - sdlclock < duration)
+    {
+      renderer->RenderTrack ();
+      renderer->RenderBall (ix, iy);
+      renderer->RenderRacket (15,
+			      20 + vmax * v - (20 - rball +
+					       vmax * v) *
+			      (float) (SDL_GetTicks () -
+				       sdlclock) * (SDL_GetTicks () -
+						    sdlclock) / duration /
+			      duration, ix, iy, phi);
+      renderer->Blit ();
+    }
 }
 
 
 
-SoftwareTracker::~SoftwareTracker(void)
+SoftwareTracker::~SoftwareTracker (void)
 {
 }

@@ -18,19 +18,19 @@
 
 #include "Tracker.h"
 
-Tracker::Tracker(int w, int h, int ix, int iy, int rball, 
-				float vmax, Renderer *renderer)
+Tracker::Tracker (int w, int h, int ix, int iy, int rball,
+		  float vmax, Renderer * renderer)
 {
-	this->w = w;
-	this->h = h;
-	this->ix = ix;
-	this->iy = iy;
-	this->rball = rball;
-	this->vmax = vmax;
+  this->w = w;
+  this->h = h;
+  this->ix = ix;
+  this->iy = iy;
+  this->rball = rball;
+  this->vmax = vmax;
 
-	this->renderer = renderer;
+  this->renderer = renderer;
 }
 
-Tracker::~Tracker(void)
+Tracker::~Tracker (void)
 {
 }

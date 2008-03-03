@@ -23,17 +23,16 @@
 // for all those who have not built the virtual reality version of the game
 // It implements functions to hit the ball with the mouse
 
-class SoftwareTracker :
-	public Tracker
+class SoftwareTracker:public Tracker
 {
 public:
-	SoftwareTracker(int w, int h, int ix, int iy, int rball, 
-		float vmax, Renderer *renderer);
-	~SoftwareTracker(void);
+  SoftwareTracker (int w, int h, int ix, int iy, int rball,
+		   float vmax, Renderer * renderer);
+   ~SoftwareTracker (void);
 
-	void Init();
-	// Draw the racket and have the user choose the ball velocity by point-and-click
-	void GetHit(float *v, float *phi);
-	// Animate the racket kicking the ball
-	void AnimateHit(Uint32 duration, float v, float phi);
+  void Init ();
+  // Draw the racket and have the user choose the ball velocity by point-and-click
+  void GetHit (float *v, float *phi);
+  // Animate the racket kicking the ball
+  void AnimateHit (Uint32 duration, float v, float phi);
 };

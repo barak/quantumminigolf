@@ -24,33 +24,36 @@
 */
 
 #include <cameraTool.h>
-	
-cameraEngine* cameraTool::findCamera() {
 
-	cameraEngine* camera = NULL;
+cameraEngine *
+cameraTool::findCamera ()
+{
 
-	#ifdef WIN32
-	camera = new dslibCamera();
-	#endif
+  cameraEngine *camera = NULL;
 
-	#ifdef __APPLE__
-	camera = new macvdCamera();
-	#endif		
-		
-	#ifdef LINUX
-	camera = new linuxfwCamera();
-	if( !camera->findCamera() ){ 
-		delete camera;
-		// check video4linux
-		camera = new v4linuxCamera();
-	}
-	#endif
-	
-	if( !camera->findCamera() ) { 
-		delete camera;
-		camera = NULL;
-	} 
-	
-	return camera;
+#ifdef WIN32
+  camera = new dslibCamera ();
+#endif
+
+#ifdef __APPLE__
+  camera = new macvdCamera ();
+#endif
+
+#ifdef LINUX
+  camera = new linuxfwCamera ();
+  if (!camera->findCamera ())
+    {
+      delete camera;
+      // check video4linux
+      camera = new v4linuxCamera ();
+    }
+#endif
+
+  if (!camera->findCamera ())
+    {
+      delete camera;
+      camera = NULL;
+    }
+
+  return camera;
 }
-

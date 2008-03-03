@@ -19,7 +19,7 @@
 
 
 //QuantumSimulator - the class implementing the numerical solution of the
-// time-dependent Schrödinger equation. 
+// time-dependent Schrödinger equation.
 // The solution is based on a time-splitting scheme.
 // The propagation is performed successively in momentum and position space
 // To propagate in momentum space, the wave function is fourier-transformed.
@@ -39,35 +39,35 @@
 class QuantumSimulator
 {
 public:
-	QuantumSimulator(int width, int height, float dt);
+  QuantumSimulator (int width, int height, float dt);
 
-	void BuildPositionPropagator(SDL_Surface *V);
-	void BuildMomentumPropagator();
+  void BuildPositionPropagator (SDL_Surface * V);
+  void BuildMomentumPropagator ();
 
-	float PropagatePosition(float quench);
-	void PropagateMomentum();
+  float PropagatePosition (float quench);
+  void PropagateMomentum ();
 
-	// return the result of a position measurement on psi
-	void PositionMeasurement(int *x, int *y);
+  // return the result of a position measurement on psi
+  void PositionMeasurement (int *x, int *y);
 
-	// GenGauss - initialize psi with a gaussian wavepacket of width w, 
-	// centered around cx and cy in position and around kx and ky in momentum space
-	void GenGauss(int cx, int cy, float kx, float ky, float w );
-	void ClearWave(void);
+  // GenGauss - initialize psi with a gaussian wavepacket of width w,
+  // centered around cx and cy in position and around kx and ky in momentum space
+  void GenGauss (int cx, int cy, float kx, float ky, float w);
+  void ClearWave (void);
 
-	fftwf_complex *psi; // the complex wavefunction
-	fftwf_complex *xprop; // the propagator in position space
+  fftwf_complex *psi;		// the complex wavefunction
+  fftwf_complex *xprop;		// the propagator in position space
 
 public:
-	~QuantumSimulator(void);
+   ~QuantumSimulator (void);
 
 private:
-	fftwf_complex *prop; // the propagator in momentum space
+    fftwf_complex * prop;	// the propagator in momentum space
 
-	fftwf_plan fft, ifft; // plans for the Fourier transformations 
-							// into momentum and position space
-	float dt;			// the timestep
-	int width, height;
-	float GaussNorm;		// Norm of the wave packet after initialization
+  fftwf_plan fft, ifft;		// plans for the Fourier transformations
+  // into momentum and position space
+  float dt;			// the timestep
+  int width, height;
+  float GaussNorm;		// Norm of the wave packet after initialization
 
 };
