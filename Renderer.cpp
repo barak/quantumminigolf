@@ -48,7 +48,7 @@ Renderer::Renderer(int width, int height, int flag, int holex, int holey, int ho
     printf("blit_sw_CC: %d\n", scrnfo->blit_sw_CC);
     printf("video_mem: %d\n", scrnfo->video_mem);
     printf("optimal color depth: %d bits\n", scrnfo->vfmt->BitsPerPixel);
-    SDL_VideoDriverName(dummy, 80);
+    SDL_VideoDriverName(dummy, sizeof(dummy));
     printf("video driver: %s\n", dummy);
     printf("\n");
 #endif

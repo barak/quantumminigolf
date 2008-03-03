@@ -183,7 +183,7 @@ int main(int argc, char **argv){
 
 			renderer.Blit();
 #ifdef DUMP_VIDEO
-			snprintf(fname, 80, "video/%d.bmp", frames);
+			snprintf(fname, sizof(fname), "video/%d.bmp", frames);
 			renderer.SaveFrame(fname);
 #endif
 
@@ -201,7 +201,7 @@ int main(int argc, char **argv){
 		renderer.Blit();
 		frames++;
 #ifdef DUMP_VIDEO
-		snprintf(fname, 80, "video/%d.bmp", frames);
+		snprintf(fname, sizeof(fname), "video/%d.bmp", frames);
 		renderer.SaveFrame(fname);
 #endif
 
@@ -231,7 +231,7 @@ int main(int argc, char **argv){
 			renderer.Blit();
 			frames++;
 #ifdef DUMP_VIDEO
-			snprintf(fname, 80, "video/%d.bmp", frames);
+			snprintf(fname, sizeof(fname), "video/%d.bmp", frames);
 			renderer.SaveFrame(fname);
 #endif
 		}

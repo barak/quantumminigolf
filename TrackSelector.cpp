@@ -28,9 +28,9 @@ TrackSelector::TrackSelector(Renderer *renderer, ClassicSimulator *csimulator)
 	this->height = renderer->height;
 
 	char line[80];
-	char V[80];
-	char hard[80];
-	char soft[80];
+	char V[sizeof(line)];
+	char hard[sizeof(line)];
+	char soft[sizeof(line)];
 	string fname;
 
 	SDL_Surface *bmp;
@@ -54,8 +54,8 @@ TrackSelector::TrackSelector(Renderer *renderer, ClassicSimulator *csimulator)
 	//config file present: load all tracks mentioned in the config file
 	else{
 		cout << "preloading tracks... " << endl;
-		while(fgets(line, 79, conf)){
-			for(int i=0; i<80-1; i++){
+		while(fgets(line, sizeof(line)-1, conf)){
+			for (size_t i = 0; i < sizeof(hard)-1; i++) {
 				hard[i] = ' '; soft[i] = ' ';
 			}
 			sscanf(line, "%s %s %s\n", V, hard, soft);
