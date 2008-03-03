@@ -18,10 +18,12 @@
 
 
 #include <stdlib.h>
+#include <math.h>
 
 // in windows, math.h does not define pi. Great !
-#ifdef WIN32
-#define M_PI 3.14159
+// Copied from /usr/include/math.h
+#ifndef M_PI
+#define M_PI		3.14159265358979323846  /* pi */
 #endif
 
 #define QMG_WIN 0
