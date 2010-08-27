@@ -6,7 +6,7 @@ SHELL=/bin/sh
 # Source of the installation. No need to change this
 SRCDIR	= .
 
-CC	= cc
+CC	= c++
 LDFLAGS	= -L/usr/lib -L/usr/local/lib -lm -lSDL -lSDL_ttf -lfftw3f
 INCFLAGS	= -I/usr/include/SDL 
 CFLAGS	= -O3 -fomit-frame-pointer -finline-functions -Wall -Wno-unused -malign-double -funroll-all-loops -DLINUX 
