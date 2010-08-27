@@ -153,8 +153,8 @@ int ClassicSimulator::propagate(Uint32 dt){
 			SDL_GetRGB(sdat[y*width+x+1], soft->format, &rpot, &mops, &mops);
 			SDL_GetRGB(sdat[(y-1)*width+x], soft->format, &upot, &mops, &mops);
 			SDL_GetRGB(sdat[(y+1)*width+x], soft->format, &dpot, &mops, &mops);
-			vel[0] -= .002*tic*(rpot-lpot);
-			vel[1] += .002*tic*(upot-dpot);
+			vel[0] -= .002/1.2*tic*(rpot-lpot);
+			vel[1] += .002/1.2*tic*(upot-dpot);
 		}
 
 		//simulate friction and update tic length due to changed speed

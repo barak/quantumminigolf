@@ -54,12 +54,17 @@ public:
 	void Unlock(void);
 	void Blit(void);
 
+	void SaveFrame(const char *fname);
+
+	void ToggleCmap(){cmap = ((cmap == cmapm) ? cmapc : cmapm);}
+
 	SDL_Surface *screen, *V;
 	int width; int height;
 
 private:
 	SDL_Surface *bBuffer; // the back buffer 
-	SDL_Surface *wave; SDL_Surface *cmap; // the wave and its color map
+	SDL_Surface *wave; // the wave
+	SDL_Surface *cmapm, *cmapc, *cmap; // monochrome, colored and a pointer to the actual color map
 	SDL_Surface *win; SDL_Surface *lose; 
 	SDL_Rect rBuffer;
 

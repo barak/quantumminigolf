@@ -118,14 +118,14 @@ void WebcamTracker::GetHit(float *v, float *phi){
 	camera->startCamera();
 
 	while(SDL_PollEvent(&dummyevent)==0){ // SDL_PollEvent : emergency exit if the user presses any key
-		clocklast = clock;
-		clock = SDL_GetTicks();
 		sum=0;
 		poslast[0] = pos[0];
 		poslast[1] = pos[1];
 
 		// acquire an image from the camera
 		if((image = camera->getFrame())==NULL){continue;}
+		clocklast = clock;
+		clock = SDL_GetTicks();
 
 		// find the brightest pixel
 		max = 0;
@@ -143,7 +143,7 @@ void WebcamTracker::GetHit(float *v, float *phi){
 		//skip the frame if it is clear that the brightest point cannot be the club
 		if(max < 50) {skipped=true; continue;}
 		if(sqrt((maxpos[0] - cx)*(maxpos[0] - cx) + 
-			(maxpos[1] - cy)*(maxpos[1] - cy)) > 75)
+			(maxpos[1] - cy)*(maxpos[1] - cy)) > 10*10)
 		{skipped=true; continue;}
 
 		// now compute the club position by taking the intnsity-weighted 

@@ -189,6 +189,12 @@ int TrackSelector::GetTrack(bool *quantum){
 						if(help)renderer->RenderMenu(*quantum);
 						renderer->Blit();
 						break;
+					case SDLK_c: // c - toggle color map
+					    renderer->ToggleCmap();
+					    renderer->RenderTrack();
+					    if(help)renderer->RenderMenu(*quantum);
+					    renderer->Blit();
+					    break;
 				}
 				break;
 			default:

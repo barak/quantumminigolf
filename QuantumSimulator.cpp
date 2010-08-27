@@ -60,6 +60,7 @@ QuantumSimulator::QuantumSimulator(int width, int height, float dt)
 	for(int i=0; i<width; i++)
 		for(int j=0; j<height; j++)
 			psi[i*height + j][0] = psi[i*height + j][1] = 0;
+	GaussNorm = 0;
 }
 
 QuantumSimulator::~QuantumSimulator(void)
@@ -240,7 +241,8 @@ void QuantumSimulator::GenGauss(int cx, int cy, float kx, float ky, float w ){
 	int x, y, xeff, yeff;
 	float r;
 
-	GaussNorm=0;
+// commented out for uncertainty movie 070519
+ 	GaussNorm=0;
 
 	int xlower = (int)(cx-2.5*w); if(xlower < 0) xlower = 0;
 	int ylower = (int)(cy-2.5*w); if(ylower < 0) ylower = 0;

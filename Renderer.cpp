@@ -53,8 +53,13 @@ Renderer::Renderer(int width, int height, int flag, int holex, int holey, int ho
     printf("\n");
 #endif
 
-    screen = SDL_SetVideoMode( width, height, 32, flag | SDL_HWACCEL );     
-
+#ifdef VR
+    screen = SDL_SetVideoMode(640, 480, 32, flag | SDL_HWACCEL );     
+#endif
+#ifndef VR
+	screen = SDL_SetVideoMode(width, height, 32, flag | SDL_HWACCEL );     
+#endif
+	
     bBuffer = SDL_CreateRGBSurface( SDL_SWSURFACE, screen->w, 
 				     screen->h, 
 				     screen->format->BitsPerPixel,
@@ -82,11 +87,17 @@ Renderer::Renderer(int width, int height, int flag, int holex, int holey, int ho
 		exit(1);
 	}
 	
-	cmap = SDL_LoadBMP( "gfx/cmap.bmp" );
-    win = SDL_LoadBMP( "gfx/win.bmp" );
-    lose = SDL_LoadBMP( "gfx/lose.bmp" );                          
+		cmapm = SDL_LoadBMP( "gfx/cmap_mono.bmp" );
+		cmapc = SDL_LoadBMP( "gfx/cmap.bmp" );
+		win = SDL_LoadBMP( "gfx/win.bmp" );
+		lose = SDL_LoadBMP( "gfx/lose.bmp" );                          
 
-	if (cmap == NULL)              
+	if (cmapm == NULL)              
+	{                
+		printf("Error: Can't load bitmap cmap_mono\n\n");
+		exit(1);
+	}
+	if (cmapc == NULL)              
 	{                
 		printf("Error: Can't load bitmap cmap\n\n");
 		exit(1);
@@ -102,13 +113,13 @@ Renderer::Renderer(int width, int height, int flag, int holex, int holey, int ho
 		exit(1);
 	}
 	
-	// compute transparency data of the color map
-	cmap = SDL_ConvertSurface(cmap, wave->format, SDL_SWSURFACE | SDL_SRCALPHA);       
-	Uint32 *pdata = (Uint32 *)cmap->pixels;
-	for(int i=0; i<cmap->w; i++){
-		for(int j=0; j<cmap->h; j++){
+	// compute transparency data of the color maps
+	cmapc = SDL_ConvertSurface(cmapc, wave->format, SDL_SWSURFACE | SDL_SRCALPHA);       
+	Uint32 *pdata = (Uint32 *)cmapc->pixels;
+	for(int i=0; i<cmapc->w; i++){
+		for(int j=0; j<cmapc->h; j++){
 			unsigned char red, green, blue, alpha;
-			SDL_GetRGBA(pdata[j*cmap->w + i], cmap->format, &red, &green, &blue, &alpha);
+			SDL_GetRGBA(pdata[j*cmapc->w + i], cmapc->format, &red, &green, &blue, &alpha);
 			alpha = red;
 			if(green > alpha) alpha = green; if(blue > alpha) alpha = blue; 
 			if(alpha > 0){
@@ -116,15 +127,33 @@ Renderer::Renderer(int width, int height, int flag, int holex, int holey, int ho
 				green = green*255/alpha;	if(green > 255) green=255;
 				blue = blue*255/alpha;		if(blue > 255) blue=255;
 			}
-			pdata[j*cmap->w + i] = SDL_MapRGBA(cmap->format, red, green, blue, alpha);
+			pdata[j*cmapc->w + i] = SDL_MapRGBA(cmapc->format, red, green, blue, alpha);
 		}
 	}
 	
+	cmapm = SDL_ConvertSurface(cmapm, wave->format, SDL_SWSURFACE | SDL_SRCALPHA);       
+	pdata = (Uint32 *)cmapm->pixels;
+	for(int i=0; i<cmapm->w; i++){
+		for(int j=0; j<cmapm->h; j++){
+			unsigned char red, green, blue, alpha;
+			SDL_GetRGBA(pdata[j*cmapm->w + i], cmapm->format, &red, &green, &blue, &alpha);
+			alpha = red;
+			if(green > alpha) alpha = green; if(blue > alpha) alpha = blue; 
+			if(alpha > 0){
+				red = red*255/alpha;		if(red > 255) red=255;
+				green = green*255/alpha;	if(green > 255) green=255;
+				blue = blue*255/alpha;		if(blue > 255) blue=255;
+			}
+			pdata[j*cmapm->w + i] = SDL_MapRGBA(cmapm->format, red, green, blue, alpha);
+		}
+	}
+	cmap = cmapc;
+
 	win = SDL_ConvertSurface(win, screen->format, SDL_SWSURFACE);       
-    lose = SDL_ConvertSurface(lose, screen->format, SDL_SWSURFACE);       
-    
-    SDL_SetColorKey(win, SDL_SRCCOLORKEY, SDL_MapRGB(win->format, 255, 255, 255));
-    SDL_SetColorKey(lose, SDL_SRCCOLORKEY, SDL_MapRGB(lose->format, 255, 255, 255));
+	lose = SDL_ConvertSurface(lose, screen->format, SDL_SWSURFACE);       
+	
+	SDL_SetColorKey(win, SDL_SRCCOLORKEY, SDL_MapRGB(win->format, 255, 255, 255));
+	SDL_SetColorKey(lose, SDL_SRCCOLORKEY, SDL_MapRGB(lose->format, 255, 255, 255));
 	
 	//load the fonts for the menu - preferably tahoma, otherwise LinLiberty
 	TTF_Init();
@@ -147,13 +176,20 @@ Renderer::Renderer(int width, int height, int flag, int holex, int holey, int ho
 #endif
 
     rBuffer.x = 0;                                               
-    rBuffer.y = 0;            
+#ifdef VR
+	rBuffer.y = 160;  //160            
+#endif
+#ifndef VR
+	rBuffer.y = 0;
+#endif
+
     rBuffer.w = bBuffer->w;       
     rBuffer.h = bBuffer->h;                    
 
     SDL_EventState(SDL_ACTIVEEVENT, SDL_IGNORE);
     SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);  
 	SDL_EventState(SDL_KEYUP, SDL_IGNORE);  
+	SDL_EventState(SDL_KEYDOWN, SDL_ENABLE);  
 
     SDL_ShowCursor( SDL_DISABLE );         
 }
@@ -224,8 +260,8 @@ void Renderer::RenderWave(fftwf_complex *psi){
 	for (x=0; x<width; x++){
 		for (y=0; y<height; y++)
 		{	
-				cx = (int)(psi[x*height + y][1])+120;
-				cy = (int)(psi[x*height + y][0])+120;
+				cx = (int)(psi[x*height + y][1])+128;
+				cy = (int)(psi[x*height + y][0])+128;
 				if(cx > 240) cx = 240;
 				if(cx < 0) cx = 0;
 				if(cy > 240) cy = 240;
@@ -348,6 +384,8 @@ void Renderer::RenderMenu(bool quantum){
 	SDL_Surface *select = TTF_RenderText_Solid( fntsml, "Press <left> or <right> to select your track,", clrFg );
 	SDL_Surface *start = TTF_RenderText_Solid( fntsml, "<Enter> or <Space> to start a game", clrFg );
 	SDL_Surface *toggle= TTF_RenderText_Solid( fntsml, "<q> to toggle quantum mode", clrFg );
+	string map = "<c> to switch to "; map.append((cmap==cmapm) ? "colored " : "monochrome "); map.append("colormap");
+	SDL_Surface *switchmap = TTF_RenderText_Solid( fntsml, map.c_str(), clrFg );
 	SDL_Surface *help= TTF_RenderText_Solid( fntsml, "<h> to toggle help overlay", clrFg );
 	SDL_Surface *esc= TTF_RenderText_Solid( fntsml, "<Esc> to quit", clrFg );
 	string qinfo = "(You are in ";
@@ -367,11 +405,13 @@ void Renderer::RenderMenu(bool quantum){
 	rcDest.y += linesep;
 	SDL_BlitSurface( info, NULL, bBuffer,&rcDest );
 	rcDest.y += linesep;
+	SDL_BlitSurface( switchmap, NULL, bBuffer,&rcDest );
+	rcDest.y += linesep;
 	SDL_BlitSurface( help, NULL, bBuffer,&rcDest );
 	rcDest.y += linesep;
 	SDL_BlitSurface( esc, NULL, bBuffer,&rcDest );
 
-	rcDest.y = 220;
+	rcDest.y = 240;
 	SDL_BlitSurface( instr, NULL, bBuffer,&rcDest );
 	rcDest.y += linesep;
 	SDL_BlitSurface( iinstr, NULL, bBuffer,&rcDest );
@@ -380,6 +420,7 @@ void Renderer::RenderMenu(bool quantum){
 	SDL_FreeSurface( select );
 	SDL_FreeSurface( start );
 	SDL_FreeSurface( toggle );	
+	SDL_FreeSurface( switchmap );	
 	SDL_FreeSurface( info );
 	SDL_FreeSurface( help );
 	SDL_FreeSurface( esc );
@@ -394,4 +435,8 @@ void Renderer::RenderMenu(bool quantum){
 void Renderer::Blit(){
 	SDL_BlitSurface( bBuffer, NULL, screen, &rBuffer );  
 	SDL_UpdateRect( screen, 0, 0, 0, 0 );      
+}
+
+void Renderer::SaveFrame(const char *fname){
+    SDL_SaveBMP(bBuffer, fname);
 }

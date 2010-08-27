@@ -32,6 +32,10 @@
 #include <sys/time.h>
 #endif
 
+#ifdef DUMP_VIDEO
+char fname[80];
+#endif
+
 // dimensions of the playing field
 #define WIDTH 640
 #define HEIGHT 320
@@ -85,16 +89,19 @@ int main(int argc, char **argv){
 	srand(tv.tv_sec + tv.tv_usec);
 #endif
 
+#ifndef VR
 	SoftwareTracker stracker(WIDTH, HEIGHT, ix, iy, rball, rvmax, NULL);
 	Tracker& tracker = stracker;
+	Renderer renderer(WIDTH, HEIGHT, SDL_HWSURFACE /*| SDL_FULLSCREEN*/, holex, holey, holer, rball);// | SDL_FULLSCREEN);
+#endif
 #ifdef VR
 	WebcamTracker wctracker(WIDTH, HEIGHT, ix, iy, rball, rvmax, NULL);
 	Tracker& tracker = wctracker;
 	printf("adjust your webcam and press <ENTER> to start\n");
 	getc(stdin);
+	Renderer renderer(WIDTH, HEIGHT, SDL_HWSURFACE | SDL_FULLSCREEN, holex, holey, holer, rball);// | SDL_FULLSCREEN);
 #endif //VR
 
-	Renderer renderer(WIDTH, HEIGHT, SDL_HWSURFACE, holex, holey, holer, rball);// | SDL_FULLSCREEN);
 	ClassicSimulator csimulator(WIDTH, HEIGHT, &renderer, holex, holey, holer);
 	QuantumSimulator simulator(WIDTH, HEIGHT, dt);
 	TrackSelector trackselector(&renderer, &csimulator);
@@ -120,11 +127,26 @@ int main(int argc, char **argv){
 
 		// now that the user has decided about the initial values, 
 		// prepare the wave packet		
-		if(quantum)
-			simulator.GenGauss( ix, iy,
-				-2*rv*M_PI/2 * cos(rphi)/2, 
-				-2*rv*M_PI/2 * sin(rphi)/2, 
-				10);    
+		if(quantum){
+		    // commented out for uncertainty movie 070519
+ 			simulator.GenGauss( ix, iy,
+ 				-2*rv*M_PI/2 * cos(rphi)/2, 
+ 				-2*rv*M_PI/2 * sin(rphi)/2, 
+ 				10);    
+		    // hack for uncertainty movie 070519
+//  			simulator.GenGauss( 200, iy,
+//  				-.4, 
+//  				0, 
+//  				15);    
+//  			simulator.GenGauss( 400, iy,
+//  				-.4, 
+//  				0, 
+//  				6);    		    
+//  			simulator.GenGauss( 600, iy,
+//  				-.4, 
+//  				0, 
+//  				3);    		    
+		}
 		else{
 			csimulator.setPosition((float)ix, (float)iy);
 			csimulator.setVelocity(-2*rv*M_PI/2 * cos(rphi), -2*rv*M_PI/2 * sin(rphi));
@@ -136,6 +158,7 @@ int main(int argc, char **argv){
 		SDL_EventState(SDL_MOUSEBUTTONUP, SDL_IGNORE);  
 		sdlclock = SDL_GetTicks();
 		frameclock = SDL_GetTicks();
+		frames=0;
 
 		// ***** MAIN LOOP *****//
 		//
@@ -159,6 +182,10 @@ int main(int argc, char **argv){
 			}
 
 			renderer.Blit();
+#ifdef DUMP_VIDEO
+			snprintf(fname, 80, "video/%d.bmp", frames);
+			renderer.SaveFrame(fname);
+#endif
 
 			// some bookkeeping
 			frames++;
@@ -172,6 +199,11 @@ int main(int argc, char **argv){
 		// render a flash to show the position measurement
 		renderer.RenderFlash();
 		renderer.Blit();
+		frames++;
+#ifdef DUMP_VIDEO
+		snprintf(fname, 80, "video/%d.bmp", frames);
+		renderer.SaveFrame(fname);
+#endif
 
 		// a button has been pressed, measure the ball position!
 		if(quantum)
@@ -197,9 +229,14 @@ int main(int argc, char **argv){
 			renderer.RenderExtro(res, ypos);
 			
 			renderer.Blit();
+			frames++;
+#ifdef DUMP_VIDEO
+			snprintf(fname, 80, "video/%d.bmp", frames);
+			renderer.SaveFrame(fname);
+#endif
 		}
 
-		//printf("rendered %d frames, framerate %2.1f fps. Goodbye\n", frames, framerate);
+//		printf("rendered %d frames, quantum part framerate %2.1f fps. Goodbye\n", frames, framerate);
 		simulator.ClearWave();
 	}
 

@@ -9,7 +9,7 @@ SRCDIR	= .
 CC	= cc
 LDFLAGS	= -L/usr/lib -L/usr/local/lib -lm -lSDL -lSDL_ttf -lfftw3f
 INCFLAGS	= -I/usr/include/SDL 
-CFLAGS	= -O3 -fomit-frame-pointer -finline-functions -Wall -Wno-unused -malign-double -funroll-all-loops -DLINUX
+CFLAGS	= -O3 -fomit-frame-pointer -finline-functions -Wall -Wno-unused -malign-double -funroll-all-loops -DLINUX 
 LDSOFLAGS	= -Wl
 
 OBJS	= quantumminigolf.o Renderer.o ClassicSimulator.o QuantumSimulator.o SoftwareTracker.o Tracker.o TrackSelector.o
