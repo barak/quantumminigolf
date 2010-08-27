@@ -1,0 +1,17 @@
+Source: quantumminigolf
+Section: games
+Priority: extra
+Maintainer: Barak A. Pearlmutter <bap@debian.org>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.9.1
+Homepage: http://www.sourceforge.net/projects/quantumminigolf
+Vcs-Git: git://git.debian.org/collab-maint/quantumminigolf.git
+Vcs-Browser: http://git.debian.org/?p=collab-maint/quantumminigolf.git;a=summary
+
+Package: quantumminigolf
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Hit a quantum golf ball which is a wave packet
+ Quantum minigolf is a minigolf simulation, in which the ball behaves
+ according to the laws of quantum mechanics.  Such a quantum ball can
+ be at several places at once and diffract around obstacles.

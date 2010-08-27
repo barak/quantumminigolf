@@ -1,0 +1,2 @@
+?package(quantumminigolf):needs="X11" section="Games/Toys"\
+  title="Quantum Minigolf" command="/usr/games/quantumminigolf"

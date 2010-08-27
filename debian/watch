@@ -1,0 +1,3 @@
+version=3
+http://sf.net/quantumminigolf/quantumminigolf-(.*[0-9])\.tar\.gz
+http://sf.net/quantumminigolf/quantumminigolf-(.*)\.src\.tar\.gz

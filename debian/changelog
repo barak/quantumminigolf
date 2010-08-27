@@ -1,0 +1,5 @@
+quantumminigolf (1.1.1-1) unstable; urgency=low
+
+  * Initial release (Closes: #594660)
+
+ -- Barak A. Pearlmutter <bap@debian.org>  Sat, 28 Aug 2010 09:50:10 +0200
