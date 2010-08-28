@@ -42,7 +42,7 @@ TrackSelector::TrackSelector (Renderer * renderer,
 
   /*read the config file, load the track bitmaps and store
      them in the track vector */
-  FILE *conf = fopen ("tracks/tracks.cfg", "r");
+  FILE *conf = fopen (TRACKSDIR "/tracks.cfg", "r");
   //load an empty dummy track, if there is no config file present
   if (conf == NULL)
     {
@@ -65,7 +65,7 @@ TrackSelector::TrackSelector (Renderer * renderer,
 	      soft[i] = ' ';
 	    }
 	  sscanf (line, "%s %s %s\n", V, hard, soft);
-	  fname = string ("tracks/");
+	  fname = string (TRACKSDIR "/");
 	  fname.append (V);
 	  cout << fname << "...";
 	  bmp = (SDL_Surface *) SDL_LoadBMP (fname.c_str ());
@@ -82,7 +82,7 @@ TrackSelector::TrackSelector (Renderer * renderer,
 	  entry->V =
 	    SDL_ConvertSurface (bmp, renderer->screen->format, SDL_SWSURFACE);
 
-	  fname = string ("tracks/");
+	  fname = string (TRACKSDIR "/");
 	  fname.append (hard);
 	  bmp = (SDL_Surface *) SDL_LoadBMP (fname.c_str ());
 	  /*if bitmap cannot be loaded or has the wrong format, skip it */
@@ -95,7 +95,7 @@ TrackSelector::TrackSelector (Renderer * renderer,
 	  entry->hard =
 	    SDL_ConvertSurface (bmp, renderer->screen->format, SDL_SWSURFACE);
 
-	  fname = string ("tracks/");
+	  fname = string (TRACKSDIR "/");
 	  fname.append (soft);
 	  bmp = (SDL_Surface *) SDL_LoadBMP (fname.c_str ());
 	  /*if bitmap cannot be loaded or has the wrong format, skip it */

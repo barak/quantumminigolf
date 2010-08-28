@@ -38,7 +38,7 @@ Renderer::Renderer (int width, int height, int flag, int holex, int holey,
 
   SDL_Init (SDL_INIT_VIDEO);
   SDL_WM_SetCaption ("Quantum Minigolf", NULL);
-  SDL_WM_SetIcon (SDL_LoadBMP ("gfx/icon.bmp"), NULL);
+  SDL_WM_SetIcon (SDL_LoadBMP (GFXDIR "/icon.bmp"), NULL);
 
 #ifdef _PROFILE
   scrnfo = SDL_GetVideoInfo ();
@@ -84,10 +84,10 @@ Renderer::Renderer (int width, int height, int flag, int holex, int holey,
       exit (1);
     }
 
-  cmapm = SDL_LoadBMP ("gfx/cmap_mono.bmp");
-  cmapc = SDL_LoadBMP ("gfx/cmap.bmp");
-  win = SDL_LoadBMP ("gfx/win.bmp");
-  lose = SDL_LoadBMP ("gfx/lose.bmp");
+  cmapm = SDL_LoadBMP (GFXDIR "/cmap_mono.bmp");
+  cmapc = SDL_LoadBMP (GFXDIR "/cmap.bmp");
+  win = SDL_LoadBMP (GFXDIR "/win.bmp");
+  lose = SDL_LoadBMP (GFXDIR "/lose.bmp");
 
   if (cmapm == NULL)
     {
@@ -176,8 +176,8 @@ Renderer::Renderer (int width, int height, int flag, int holex, int holey,
   TTF_Init ();
 
 #ifdef LINUX
-  fntsml = TTF_OpenFont ("fonts/default.ttf", 12);
-  fntbg = TTF_OpenFont ("fonts/default.ttf", 24);
+  fntsml = TTF_OpenFont (FONTSDIR "/default.ttf", 12);
+  fntbg = TTF_OpenFont (FONTSDIR "/default.ttf", 24);
 #endif
 
 #ifdef WIN32

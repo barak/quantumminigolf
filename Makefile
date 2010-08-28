@@ -25,8 +25,48 @@ OBJS += TrackSelector.o
 
 $(EXE): $(OBJS)
 
-.PHONY : all clean
+.PHONY : all clean install uninstall
+
 clean: ; -rm -f $(OBJS) $(EXE) $(dfiles)
+
+prefix=/usr/local
+exec_prefix=$(prefix)
+bindir=$(exec_prefix)/bin
+datarootdir=$(prefix)/share
+datadir=$(datarootdir)
+qdatadir=$(datarootdir)/quantumminigolf
+
+CPPFLAGS += -DQDATADIR='"$(qdatadir)"'
+
+INSTALL = install
+INSTALL_PROGRAM = $(INSTALL) --mode a+rx,ug+w
+INSTALL_DIR = mkdir --parent
+INSTALL_DATA = $(INSTALL) --mode a+r,ug+w
+
+install:: $(EXE)
+	$(INSTALL_DIR) $(DESTDIR)$(bindir)
+	$(INSTALL_PROGRAM) $(EXE) $(DESTDIR)$(bindir)
+uninstall::
+	-cd $(DESTDIR)$(bindir) && rm -f $(progs)
+
+install::
+	$(INSTALL_DIR) $(DESTDIR)$(qdatadir)/tracks
+	$(INSTALL_DATA) tracks/tracks.cfg tracks/*.bmp $(DESTDIR)$(qdatadir)/tracks/
+
+install::
+	$(INSTALL_DIR) $(DESTDIR)$(qdatadir)/gfx
+	$(INSTALL_DATA) gfx/*.bmp $(DESTDIR)$(qdatadir)/gfx/
+
+install::
+	$(INSTALL_DIR) $(DESTDIR)$(qdatadir)/fonts
+	$(INSTALL_DATA) fonts/*.ttf $(DESTDIR)$(qdatadir)/fonts/
+
+uninstall::
+	-rm -r $(DESTDIR)$(qdatadir)/tracks $(DESTDIR)$(qdatadir)/gfx $(DESTDIR)$(qdatadir)/fonts
+	-rmdir $(DESTDIR)$(qdatadir)
+
+install-strip:
+	$(MAKE) INSTALL_PROGRAM='$(INSTALL_PROGRAM) --strip' install
 
 # unobtrusively account for #include dependencies
 override CPPFLAGS += -MMD

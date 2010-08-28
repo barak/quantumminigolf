@@ -28,3 +28,19 @@
 
 #define QMG_WIN 0
 #define QMG_LOSE 1
+
+#ifndef QDATADIR
+#define QDATADIR "."
+#endif
+
+#ifndef TRACKSDIR
+#define TRACKSDIR QDATADIR "/tracks"
+#endif
+
+#ifndef GFXDIR
+#define GFXDIR QDATADIR "/gfx"
+#endif
+
+#ifndef FONTSDIR
+#define FONTSDIR QDATADIR "/fonts"
+#endif
