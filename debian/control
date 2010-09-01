@@ -2,7 +2,9 @@ Source: quantumminigolf
 Section: games
 Priority: extra
 Maintainer: Barak A. Pearlmutter <bap@debian.org>
-Build-Depends: debhelper (>= 7.0.50~)
+Build-Depends: debhelper (>= 7.0.50~),
+	       libsdl1.2-dev, libsdl-ttf2.0-dev,
+	       libfftw3-dev
 Standards-Version: 3.9.1
 Homepage: http://www.sourceforge.net/projects/quantumminigolf
 Vcs-Git: git://git.debian.org/collab-maint/quantumminigolf.git
