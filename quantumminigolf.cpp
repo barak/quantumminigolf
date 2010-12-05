@@ -82,6 +82,8 @@ wmain (int argc, char *argv[])
 
   SDL_Event dummyevent;
 
+  int mainloopfinished = 0;
+
   // seed the random number generator
 #ifdef WIN32
   srand (time (NULL));
@@ -168,11 +170,37 @@ wmain (int argc, char *argv[])
 
       // ***** MAIN LOOP *****//
       //
-      // while the user is watching (no event emitted), propagate the
+      // while the user doesn't press RET, Space or Esc, propagate the
       // wave function in the potential
-      while (SDL_PollEvent (&dummyevent) == 0)
-	{
-	  renderer.RenderTrack ();
+      while (1)
+        {
+          if (SDL_PollEvent (&dummyevent))
+            {
+              switch (dummyevent.type)
+                {
+                case SDL_KEYDOWN:
+                  switch (dummyevent.key.keysym.sym)
+                    {
+                    case SDLK_RETURN:	//RET, Space or Esc - stop
+                    case SDLK_ESCAPE:
+                    case SDLK_SPACE:
+                      mainloopfinished = 1;
+                      break;
+                    default:
+                      break;
+                    }
+                  break;
+                default:
+                  break;
+                }
+            }
+          if (mainloopfinished)
+            {
+              mainloopfinished = 0;
+              break;
+            }
+
+          renderer.RenderTrack ();
 
 	  if (quantum)
 	    {
