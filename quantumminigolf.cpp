@@ -82,7 +82,7 @@ wmain (int argc, char *argv[])
 
   SDL_Event dummyevent;
 
-  int mainloopfinished = 0;
+  bool mainloopfinished = false;
 
   // seed the random number generator
 #ifdef WIN32
@@ -184,7 +184,7 @@ wmain (int argc, char *argv[])
                     case SDLK_RETURN:	//RET, Space or Esc - stop
                     case SDLK_ESCAPE:
                     case SDLK_SPACE:
-                      mainloopfinished = 1;
+                      mainloopfinished = true;
                       break;
 		    case SDLK_b:	// b - toggle background rendering
 		      renderer.ToggleBackgroundRendering ();
@@ -199,7 +199,7 @@ wmain (int argc, char *argv[])
             }
           if (mainloopfinished)
             {
-              mainloopfinished = 0;
+              mainloopfinished = false;
               break;
             }
 
