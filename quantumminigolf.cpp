@@ -186,6 +186,9 @@ wmain (int argc, char *argv[])
                     case SDLK_SPACE:
                       mainloopfinished = 1;
                       break;
+		    case SDLK_b:	// b - toggle background rendering
+		      renderer.ToggleBackgroundRendering ();
+		      break;
                     default:
                       break;
                     }

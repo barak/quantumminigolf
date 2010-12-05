@@ -43,6 +43,7 @@ public:
    ~Renderer (void);
 
   void RenderTrack (void);
+  void RenderBlack (void);
   void RenderHole (float x, float y, float r);
   void RenderWave (fftwf_complex * psi);
   void RenderBall (float posx, float posy);
@@ -60,6 +61,12 @@ public:
   void ToggleCmap ()
   {
     cmap = ((cmap == cmapm) ? cmapc : cmapm);
+  }
+
+  void ToggleBackgroundRendering ()
+  {
+	renderTrack = !renderTrack;
+	renderHole = !renderHole;
   }
 
   SDL_Surface *screen, *V;
@@ -80,4 +87,6 @@ private:
 
   int holex, holey, holer;	// position and radius of the hole
   int rball;			// radius of the ball
+
+  bool renderTrack, renderHole;
 };

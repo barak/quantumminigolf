@@ -220,6 +220,13 @@ TrackSelector::GetTrack (bool * quantum)
 		renderer->RenderMenu (*quantum);
 	      renderer->Blit ();
 	      break;
+	    case SDLK_b:	// b - toggle background rendering
+	      renderer->ToggleBackgroundRendering ();
+	      renderer->RenderTrack ();
+	      if (help)
+		renderer->RenderMenu (*quantum);
+	      renderer->Blit ();
+	      break;
 	    default:
 	      cerr << "warning: unhandled SDLK event" << endl;
 	      break;

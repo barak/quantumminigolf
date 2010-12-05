@@ -31,6 +31,9 @@ Renderer::Renderer (int width, int height, int flag, int holex, int holey,
   this->holer = holer;
   this->rball = rball;
 
+  this->renderTrack = true;
+  this->renderHole = true;
+
 #ifdef _PROFILE
   char dummy[80];
   SDL_VideoInfo *scrnfo;
@@ -234,6 +237,12 @@ Renderer::~Renderer (void)
 void
 Renderer::RenderTrack ()
 {
+  if (!renderTrack)
+	{
+	  RenderBlack ();
+	  return;
+	}
+
   SDL_Rect rblit;
 
   rblit.x = 0;
@@ -244,11 +253,22 @@ Renderer::RenderTrack ()
   SDL_BlitSurface (V, NULL, bBuffer, &rblit);
 }
 
+void
+Renderer::RenderBlack ()
+{
+  SDL_FillRect (bBuffer, NULL, 0);
+}
+
 //RenderHole
 //render the (minimalistic, OK) hole into the bBuffer
 void
 Renderer::RenderHole (float x, float y, float r)
 {
+  if (!renderHole)
+	{
+	  return;
+	}
+
   float phi;
 
   Uint32 *buffer_dat = (Uint32 *) bBuffer->pixels;
