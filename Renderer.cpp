@@ -440,30 +440,30 @@ Renderer::RenderMenu (bool quantum)
 
   SDL_Color clrFg = { 255, 0, 0, 255 };	// Red ("Fg" is foreground)
   SDL_Surface *welcome =
-    TTF_RenderText_Solid (fntbg, "Welcome to Quantum Minigolf", clrFg);
-  SDL_Surface *select = TTF_RenderText_Solid (fntsml,
+    TTF_RenderText_Blended (fntbg, "Welcome to Quantum Minigolf", clrFg);
+  SDL_Surface *select = TTF_RenderText_Blended (fntsml,
 					      "Press <left> or <right> to select your track,",
 					      clrFg);
   SDL_Surface *start =
-    TTF_RenderText_Solid (fntsml, "<Enter> or <Space> to start a game",
+    TTF_RenderText_Blended (fntsml, "<Enter> or <Space> to start a game",
 			  clrFg);
   SDL_Surface *toggle =
-    TTF_RenderText_Solid (fntsml, "<q> to toggle quantum mode", clrFg);
+    TTF_RenderText_Blended (fntsml, "<q> to toggle quantum mode", clrFg);
   string map = "<c> to switch to ";
   map.append ((cmap == cmapm) ? "colored " : "monochrome ");
   map.append ("colormap");
-  SDL_Surface *switchmap = TTF_RenderText_Solid (fntsml, map.c_str (), clrFg);
+  SDL_Surface *switchmap = TTF_RenderText_Blended (fntsml, map.c_str (), clrFg);
   SDL_Surface *help =
-    TTF_RenderText_Solid (fntsml, "<h> to toggle help overlay", clrFg);
-  SDL_Surface *esc = TTF_RenderText_Solid (fntsml, "<Esc> to quit", clrFg);
+    TTF_RenderText_Blended (fntsml, "<h> to toggle help overlay", clrFg);
+  SDL_Surface *esc = TTF_RenderText_Blended (fntsml, "<Esc> to quit", clrFg);
   string qinfo = "(You are in ";
   qinfo.append (quantum ? "quantum" : "classical");
   qinfo.append (" mode)");
-  SDL_Surface *info = TTF_RenderText_Solid (fntsml, qinfo.c_str (), clrFg);
-  SDL_Surface *instr = TTF_RenderText_Solid (fntsml,
+  SDL_Surface *info = TTF_RenderText_Blended (fntsml, qinfo.c_str (), clrFg);
+  SDL_Surface *instr = TTF_RenderText_Blended (fntsml,
 					     "Once the game is running, click, hold and release the left mouse button",
 					     clrFg);
-  SDL_Surface *iinstr = TTF_RenderText_Solid (fntsml,
+  SDL_Surface *iinstr = TTF_RenderText_Blended (fntsml,
 					      "to kick the ball. Click once more to measure its position.",
 					      clrFg);
   SDL_Rect rcDest = { 150, 50, 0, 0 };
